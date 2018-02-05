@@ -22,6 +22,7 @@ package com.github.shadowsocks.preference
 
 import android.os.Binder
 import com.github.shadowsocks.BootReceiver
+import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.database.PrivateDatabase
 import com.github.shadowsocks.database.PublicDatabase
 import com.github.shadowsocks.utils.DirectBoot
@@ -53,6 +54,9 @@ object DataStore {
      * Setter is defined in MainActivity.onPreferenceDataStoreChanged.
      */
     val directBootAware: Boolean get() = BootReceiver.enabled && (publicStore.getBoolean(Key.directBootAware) ?: false)
+    var route: String
+        get() = publicStore.getString(Key.route) ?: Acl.ALL
+        set(value) = publicStore.putString(Key.route, value)
     var serviceMode: String
         get() = publicStore.getString(Key.serviceMode) ?: Key.modeVpn
         set(value) = publicStore.putString(Key.serviceMode, value)
@@ -68,6 +72,7 @@ object DataStore {
 
     fun initGlobal() {
         // temporary workaround for support lib bug
+        if (publicStore.getString(Key.route) == null) route = route
         if (publicStore.getString(Key.serviceMode) == null) serviceMode = serviceMode
         if (publicStore.getString(Key.portProxy) == null) portProxy = portProxy
         if (publicStore.getString(Key.portLocalDns) == null) portLocalDns = portLocalDns

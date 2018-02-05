@@ -40,12 +40,6 @@
     <PreferenceCategory
             android:title="@string/feature_cat">
 
-        <SimpleMenuPreference
-                android:key="route"
-                android:entries="@array/route_entry"
-                android:entryValues="@array/route_value"
-                android:summary="%s"
-                android:title="@string/route_list"/>
         <AutoSummaryEditTextPreference
                 android:key="remoteDns"
                 android:title="@string/remote_dns"

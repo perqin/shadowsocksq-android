@@ -154,7 +154,7 @@ class VpnService : BaseVpnService(), LocalDnsService.Interface {
             if (!profile.bypass) builder.addAllowedApplication(me)
         }
 
-        when (profile.route) {
+        when (DataStore.route) {
             Acl.ALL, Acl.BYPASS_CHN, Acl.CUSTOM_RULES -> builder.addRoute("0.0.0.0", 0)
             else -> {
                 resources.getStringArray(R.array.bypass_private_route).forEach {

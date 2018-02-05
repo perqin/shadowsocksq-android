@@ -14,6 +14,15 @@
                       android:summary="@string/tcp_fastopen_summary"
                       android:title="TCP Fast Open"/>
     <PreferenceCategory
+        android:title="@string/feature_cat">
+        <SimpleMenuPreference
+            android:key="route"
+            android:entries="@array/route_entry"
+            android:entryValues="@array/route_value"
+            android:summary="%s"
+            android:title="@string/route_list"/>
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/advanced">
         <SimpleMenuPreference
             android:key="serviceMode"

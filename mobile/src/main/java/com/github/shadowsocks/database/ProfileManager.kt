@@ -36,7 +36,6 @@ object ProfileManager {
             val oldProfile = app.currentProfile
             if (oldProfile != null) {
                 // Copy Feature Settings from old profile
-                profile.route = oldProfile.route
                 profile.ipv6 = oldProfile.ipv6
                 profile.proxyApps = oldProfile.proxyApps
                 profile.bypass = oldProfile.bypass

@@ -100,9 +100,6 @@ class Profile : Serializable {
     var method: String = "aes-256-cfb"
 
     @DatabaseField
-    var route: String = "all"
-
-    @DatabaseField
     var remoteDns: String = "8.8.8.8"
 
     @DatabaseField
@@ -158,7 +155,6 @@ class Profile : Serializable {
         DataStore.privateStore.putString(Key.host, host)
         DataStore.privateStore.putString(Key.remotePort, remotePort.toString())
         DataStore.privateStore.putString(Key.password, password)
-        DataStore.privateStore.putString(Key.route, route)
         DataStore.privateStore.putString(Key.remoteDns, remoteDns)
         DataStore.privateStore.putString(Key.method, method)
         DataStore.proxyApps = proxyApps
@@ -176,7 +172,6 @@ class Profile : Serializable {
         remotePort = parsePort(DataStore.privateStore.getString(Key.remotePort), 8388, 1)
         password = DataStore.privateStore.getString(Key.password) ?: ""
         method = DataStore.privateStore.getString(Key.method) ?: ""
-        route = DataStore.privateStore.getString(Key.route) ?: ""
         remoteDns = DataStore.privateStore.getString(Key.remoteDns) ?: ""
         proxyApps = DataStore.proxyApps
         bypass = DataStore.bypass

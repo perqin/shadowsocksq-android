@@ -45,6 +45,7 @@ import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.MainActivity
 import com.github.shadowsocks.ToolbarFragment
 import com.github.shadowsocks.bg.BaseService
+import com.github.shadowsocks.preference.DataStore
 import com.github.shadowsocks.utils.Subnet
 import com.github.shadowsocks.utils.asIterable
 import com.github.shadowsocks.widget.UndoSnackbarManager
@@ -280,7 +281,7 @@ class CustomRulesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
     }
 
     private val isEnabled get() = when ((activity as MainActivity).state) {
-        BaseService.CONNECTED -> app.currentProfile?.route != Acl.CUSTOM_RULES
+        BaseService.CONNECTED -> DataStore.route != Acl.CUSTOM_RULES
         BaseService.STOPPED -> true
         else -> false
     }

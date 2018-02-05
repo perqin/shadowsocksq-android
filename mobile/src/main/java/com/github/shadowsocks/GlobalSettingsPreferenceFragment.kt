@@ -68,6 +68,7 @@ class GlobalSettingsPreferenceFragment : PreferenceFragmentCompatDividers() {
             tfo.summary = getString(R.string.tcp_fastopen_summary_unsupported, System.getProperty("os.version"))
         }
 
+        val route = findPreference(Key.route)
         val serviceMode = findPreference(Key.serviceMode)
         val portProxy = findPreference(Key.portProxy)
         val portLocalDns = findPreference(Key.portLocalDns)
@@ -86,11 +87,13 @@ class GlobalSettingsPreferenceFragment : PreferenceFragmentCompatDividers() {
         val listener: (Int) -> Unit = {
             when (it) {
                 BaseService.IDLE, BaseService.STOPPED -> {
+                    route.isEnabled = true
                     serviceMode.isEnabled = true
                     portProxy.isEnabled = true
                     onServiceModeChange.onPreferenceChange(null, DataStore.serviceMode)
                 }
                 else -> {
+                    route.isEnabled = false
                     serviceMode.isEnabled = false
                     portProxy.isEnabled = false
                     portLocalDns.isEnabled = false

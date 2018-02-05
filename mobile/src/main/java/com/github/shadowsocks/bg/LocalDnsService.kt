@@ -20,7 +20,6 @@
 
 package com.github.shadowsocks.bg
 
-import android.content.Context
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.preference.DataStore
@@ -79,7 +78,7 @@ object LocalDnsService {
                         makeDns("Primary-2", "114.114.114.114", 3, false)
                 ))
 
-                when (profile.route) {
+                when (DataStore.route) {
                     Acl.BYPASS_CHN, Acl.BYPASS_LAN_CHN, Acl.GFWLIST, Acl.CUSTOM_RULES -> config
                             .put("PrimaryDNS", localDns)
                             .put("AlternativeDNS", remoteDns)

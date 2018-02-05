@@ -161,7 +161,7 @@ class MainActivity : AppCompatActivity(), ShadowsocksConnection.Interface, Drawe
      * Based on: https://android.googlesource.com/platform/frameworks/base/+/97bfd27/services/core/java/com/android/server/connectivity/NetworkMonitor.java#879
      */
     private fun testConnection(id: Int) {
-        val url = URL("https", when (app.currentProfile!!.route) {
+        val url = URL("https", when (DataStore.route) {
             Acl.CHINALIST -> "www.qualcomm.cn"
             else -> "www.google.com"
         }, "/generate_204")

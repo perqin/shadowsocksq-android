@@ -194,7 +194,7 @@ object BaseService {
         }
 
         val aclFile: File? get() {
-            val route = profile!!.route
+            val route = DataStore.route
             return if (route == Acl.ALL) null else Acl.getFile(route)
         }
 
@@ -376,7 +376,7 @@ object BaseService {
                         profile.method = proxy[3].trim()
                     }
 
-                    if (profile.route == Acl.CUSTOM_RULES)
+                    if (DataStore.route == Acl.CUSTOM_RULES)
                         Acl.save(Acl.CUSTOM_RULES, Acl.customRules.flatten(10))
 
                     data.plugin = PluginConfiguration(profile.plugin ?: "").selectedOptions
@@ -390,7 +390,7 @@ object BaseService {
 
                     startNativeProcesses()
 
-                    if (profile.route !in arrayOf(Acl.ALL, Acl.CUSTOM_RULES)) AclSyncJob.schedule(profile.route)
+                    if (DataStore.route !in arrayOf(Acl.ALL, Acl.CUSTOM_RULES)) AclSyncJob.schedule(DataStore.route)
 
                     data.changeState(CONNECTED)
                 } catch (_: UnknownHostException) {
