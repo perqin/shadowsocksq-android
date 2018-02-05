@@ -26,12 +26,12 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v14.preference.SwitchPreference
 import android.support.v7.preference.Preference
-import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.bg.BaseService
 import com.github.shadowsocks.preference.DataStore
 import com.github.shadowsocks.utils.DirectBoot
 import com.github.shadowsocks.utils.Key
 import com.github.shadowsocks.utils.TcpFastOpen
+import com.perqin.shadowsocksq.R
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers
 
 class GlobalSettingsPreferenceFragment : PreferenceFragmentCompatDividers() {

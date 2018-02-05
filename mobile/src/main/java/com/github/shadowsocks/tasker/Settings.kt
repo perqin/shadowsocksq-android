@@ -23,8 +23,8 @@ package com.github.shadowsocks.tasker
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.github.shadowsocks.R
 import com.github.shadowsocks.database.ProfileManager
+import com.perqin.shadowsocksq.R
 import com.twofortyfouram.locale.api.Intent as ApiIntent
 
 class Settings(bundle: Bundle?) {

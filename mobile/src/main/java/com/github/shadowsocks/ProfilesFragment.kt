@@ -50,6 +50,7 @@ import com.github.shadowsocks.widget.UndoSnackbarManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import com.perqin.shadowsocksq.R
 import net.glxn.qrgen.android.QRCode
 
 class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {

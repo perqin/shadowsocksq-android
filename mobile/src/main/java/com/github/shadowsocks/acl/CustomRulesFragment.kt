@@ -43,12 +43,12 @@ import com.futuremind.recyclerviewfastscroll.FastScroller
 import com.futuremind.recyclerviewfastscroll.SectionTitleProvider
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.MainActivity
-import com.github.shadowsocks.R
 import com.github.shadowsocks.ToolbarFragment
 import com.github.shadowsocks.bg.BaseService
 import com.github.shadowsocks.utils.Subnet
 import com.github.shadowsocks.utils.asIterable
 import com.github.shadowsocks.widget.UndoSnackbarManager
+import com.perqin.shadowsocksq.R
 import java.net.IDN
 import java.net.URL
 import java.util.*

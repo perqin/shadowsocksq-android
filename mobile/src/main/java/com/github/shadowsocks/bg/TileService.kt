@@ -26,10 +26,10 @@ import android.graphics.drawable.Icon
 import android.service.quicksettings.Tile
 import android.support.annotation.RequiresApi
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.R
 import com.github.shadowsocks.ShadowsocksConnection
 import com.github.shadowsocks.aidl.IShadowsocksService
 import com.github.shadowsocks.aidl.IShadowsocksServiceCallback
+import com.perqin.shadowsocksq.R
 import android.service.quicksettings.TileService as BaseTileService
 
 @RequiresApi(24)

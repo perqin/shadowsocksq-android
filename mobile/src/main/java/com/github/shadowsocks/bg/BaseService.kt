@@ -33,7 +33,6 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Toast
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.R
 import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.acl.AclSyncJob
 import com.github.shadowsocks.aidl.IShadowsocksService
@@ -45,6 +44,7 @@ import com.github.shadowsocks.plugin.PluginManager
 import com.github.shadowsocks.plugin.PluginOptions
 import com.github.shadowsocks.preference.DataStore
 import com.github.shadowsocks.utils.*
+import com.perqin.shadowsocksq.R
 import okhttp3.FormBody
 import okhttp3.OkHttpClient
 import okhttp3.Request

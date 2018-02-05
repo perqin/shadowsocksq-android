@@ -25,6 +25,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.shadowsocks.utils.childFragManager
+import com.perqin.shadowsocksq.R
 
 class GlobalSettingsFragment : ToolbarFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

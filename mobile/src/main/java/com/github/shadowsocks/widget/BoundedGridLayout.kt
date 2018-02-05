@@ -23,7 +23,7 @@ package com.github.shadowsocks.widget
 import android.content.Context
 import android.support.v7.widget.GridLayout
 import android.util.AttributeSet
-import com.github.shadowsocks.R
+import com.perqin.shadowsocksq.R
 
 /**
  * Based on: http://stackoverflow.com/a/6212120/2245107

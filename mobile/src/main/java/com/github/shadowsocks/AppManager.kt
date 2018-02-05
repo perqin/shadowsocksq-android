@@ -53,6 +53,7 @@ import com.github.shadowsocks.utils.DirectBoot
 import com.github.shadowsocks.utils.Key
 import com.github.shadowsocks.utils.resolveResourceId
 import com.github.shadowsocks.utils.thread
+import com.perqin.shadowsocksq.R
 import java.util.concurrent.atomic.AtomicBoolean
 
 class AppManager : AppCompatActivity(), Toolbar.OnMenuItemClickListener {

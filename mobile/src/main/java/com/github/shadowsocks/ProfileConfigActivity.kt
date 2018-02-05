@@ -28,6 +28,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import com.github.shadowsocks.plugin.PluginContract
 import com.github.shadowsocks.preference.DataStore
+import com.perqin.shadowsocksq.R
 
 class ProfileConfigActivity : AppCompatActivity() {
     companion object {

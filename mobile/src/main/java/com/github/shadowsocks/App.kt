@@ -55,6 +55,8 @@ import com.google.android.gms.analytics.Tracker
 import com.google.firebase.FirebaseApp
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.j256.ormlite.logger.LocalLog
+import com.perqin.shadowsocksq.BuildConfig
+import com.perqin.shadowsocksq.R
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompat
 import java.io.File
 import java.io.IOException

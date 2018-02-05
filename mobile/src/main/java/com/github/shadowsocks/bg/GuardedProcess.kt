@@ -24,10 +24,10 @@ import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.BuildConfig
 import com.github.shadowsocks.JniHelper
 import com.github.shadowsocks.utils.Commandline
 import com.github.shadowsocks.utils.thread
+import com.perqin.shadowsocksq.BuildConfig
 import java.io.IOException
 import java.io.InputStream
 import java.util.concurrent.Semaphore

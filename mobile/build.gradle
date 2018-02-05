@@ -18,12 +18,12 @@ android {
     buildToolsVersion rootProject.buildToolsVersion
     compileSdkVersion rootProject.sdkVersion
     defaultConfig {
-        applicationId "com.github.shadowsocks"
+        applicationId "com.perqin.shadowsocksq"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.sdkVersion
         versionCode 211
         versionName "4.4.6"
-        testApplicationId "com.github.shadowsocks.test"
+        testApplicationId "com.perqin.shadowsocksq.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "fa", "fr", "ja", "ko", "ru", "zh-rCN", "zh-rTW"
     }

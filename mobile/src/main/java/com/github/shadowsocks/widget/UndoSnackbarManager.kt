@@ -22,7 +22,7 @@ package com.github.shadowsocks.widget
 
 import android.support.design.widget.Snackbar
 import android.view.View
-import com.github.shadowsocks.R
+import com.perqin.shadowsocksq.R
 
 /**
  * @param view The view to find a parent from.

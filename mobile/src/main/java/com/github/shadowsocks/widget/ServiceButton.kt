@@ -30,8 +30,8 @@ import android.support.v7.widget.TooltipCompat
 import android.util.AttributeSet
 import android.view.View
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.R
 import com.github.shadowsocks.bg.BaseService
+import com.perqin.shadowsocksq.R
 import java.util.*
 
 class ServiceButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) :

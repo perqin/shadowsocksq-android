@@ -32,10 +32,10 @@ import android.os.PowerManager
 import android.support.v4.app.NotificationCompat
 import android.support.v4.content.ContextCompat
 import com.github.shadowsocks.MainActivity
-import com.github.shadowsocks.R
 import com.github.shadowsocks.aidl.IShadowsocksServiceCallback
 import com.github.shadowsocks.utils.Action
 import com.github.shadowsocks.utils.broadcastReceiver
+import com.perqin.shadowsocksq.R
 import java.util.*
 
 /**

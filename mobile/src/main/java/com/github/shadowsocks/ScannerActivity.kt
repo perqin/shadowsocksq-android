@@ -34,6 +34,7 @@ import com.github.shadowsocks.database.Profile
 import com.github.shadowsocks.database.ProfileManager
 import com.github.shadowsocks.utils.resolveResourceId
 import com.google.zxing.Result
+import com.perqin.shadowsocksq.R
 import me.dm7.barcodescanner.zxing.ZXingScannerView
 
 class ScannerActivity : AppCompatActivity(), ZXingScannerView.ResultHandler {

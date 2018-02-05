@@ -63,6 +63,7 @@ import com.mikepenz.materialdrawer.DrawerBuilder
 import com.mikepenz.materialdrawer.interfaces.ICrossfader
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem
+import com.perqin.shadowsocksq.R
 import java.net.HttpURLConnection
 import java.net.InetSocketAddress
 import java.net.Proxy

@@ -29,6 +29,8 @@ import android.view.ViewGroup
 import android.webkit.WebResourceRequest
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.perqin.shadowsocksq.BuildConfig
+import com.perqin.shadowsocksq.R
 
 class AboutFragment : ToolbarFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =

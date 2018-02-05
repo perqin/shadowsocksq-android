@@ -4,5 +4,5 @@ import com.github.shadowsocks.App.Companion.app
 
 object NoPlugin : Plugin() {
     override val id: String get() = ""
-    override val label: CharSequence get() = app.getText(com.github.shadowsocks.R.string.plugin_disabled)
+    override val label: CharSequence get() = app.getText(com.perqin.shadowsocksq.R.string.plugin_disabled)
 }

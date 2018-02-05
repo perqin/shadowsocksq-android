@@ -22,7 +22,7 @@ package com.github.shadowsocks.bg
 
 import android.os.SystemClock
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.R
+import com.perqin.shadowsocksq.R
 import java.text.DecimalFormat
 
 object TrafficMonitor {

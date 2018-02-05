@@ -122,7 +122,7 @@ object PluginManager {
         // add other plugin types here
 
         throw if (throwable != null) throwable else
-            FileNotFoundException(app.getString(com.github.shadowsocks.R.string.plugin_unknown, options.id))
+            FileNotFoundException(app.getString(com.perqin.shadowsocksq.R.string.plugin_unknown, options.id))
     }
 
     private fun initNative(options: PluginOptions): String? {

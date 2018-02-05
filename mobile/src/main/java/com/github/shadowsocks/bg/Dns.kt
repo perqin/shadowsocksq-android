@@ -22,7 +22,7 @@ package com.github.shadowsocks.bg
 
 import android.util.Log
 import com.github.shadowsocks.App.Companion.app
-import com.github.shadowsocks.BuildConfig
+import com.perqin.shadowsocksq.BuildConfig
 import org.xbill.DNS.*
 import java.net.Inet6Address
 import java.net.InetAddress

@@ -46,6 +46,7 @@ import com.github.shadowsocks.preference.PluginConfigurationDialogFragment
 import com.github.shadowsocks.utils.Action
 import com.github.shadowsocks.utils.DirectBoot
 import com.github.shadowsocks.utils.Key
+import com.perqin.shadowsocksq.R
 import com.takisoft.fix.support.v7.preference.EditTextPreference
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers
 

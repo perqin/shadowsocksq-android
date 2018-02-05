@@ -33,10 +33,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckedTextView
 import android.widget.Switch
-import com.github.shadowsocks.R
 import com.github.shadowsocks.database.Profile
 import com.github.shadowsocks.database.ProfileManager
 import com.github.shadowsocks.utils.resolveResourceId
+import com.perqin.shadowsocksq.R
 
 class ConfigActivity : AppCompatActivity() {
     inner class ProfileViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {

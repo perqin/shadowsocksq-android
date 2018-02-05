@@ -31,6 +31,7 @@ import android.support.v4.graphics.drawable.IconCompat
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.aidl.IShadowsocksService
 import com.github.shadowsocks.bg.BaseService
+import com.perqin.shadowsocksq.R
 
 class QuickToggleShortcut : Activity(), ShadowsocksConnection.Interface {
     override fun onCreate(savedInstanceState: Bundle?) {
