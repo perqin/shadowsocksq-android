@@ -36,3 +36,7 @@
 [submodule "core/src/overture/src/github.com/shadowsocks/overture"]
 	path = core/src/overture/src/github.com/shadowsocks/overture
 	url = https://github.com/shadowsocks/overture.git
+[submodule "core/src/main/jni/shadowsocksrr-libev"]
+	path = core/src/main/jni/shadowsocksrr-libev
+	url = https://github.com/perqin/shadowsocksrr-libev.git
+	branch = ssq/master
