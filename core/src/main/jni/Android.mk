@@ -278,6 +278,60 @@ LOCAL_LDLIBS := -llog
 include $(BUILD_SHARED_EXECUTABLE)
 
 ########################################################
+## libudns
+########################################################
+
+include $(CLEAR_VARS)
+
+UDNS_SOURCES := udns_dn.c udns_dntosp.c udns_parse.c udns_resolver.c udns_init.c \
+	udns_misc.c udns_XtoX.c \
+	udns_rr_a.c udns_rr_ptr.c udns_rr_mx.c udns_rr_txt.c udns_bl.c \
+	udns_rr_srv.c udns_rr_naptr.c udns_codes.c udns_jran.c
+
+LOCAL_MODULE := libudns
+LOCAL_CFLAGS += -O2 -I$(LOCAL_PATH)/shadowsocksrr-libev/libudns \
+				-DHAVE_DECL_INET_NTOP
+
+LOCAL_SRC_FILES := $(addprefix shadowsocksrr-libev/libudns/,$(UDNS_SOURCES))
+
+include $(BUILD_STATIC_LIBRARY)
+
+########################################################
+## shadowsocksrr-libev local
+########################################################
+
+include $(CLEAR_VARS)
+
+SHADOWSOCKSRR_SOURCES := local.c cache.c udprelay.c encrypt.c \
+	utils.c netutils.c json.c jconf.c acl.c http.c tls.c rule.c \
+	android.c
+
+LOCAL_MODULE    := ssrr-local
+LOCAL_SRC_FILES := $(addprefix shadowsocksrr-libev/src/, $(SHADOWSOCKSRR_SOURCES))
+LOCAL_CFLAGS    := -Wall -O0 -g -fno-strict-aliasing -DMODULE_LOCAL \
+					-DUSE_CRYPTO_MBEDTLS -DANDROID -DHAVE_CONFIG_H \
+					-DCONNECT_IN_PROGRESS=EINPROGRESS \
+					-I$(LOCAL_PATH)/include/shadowsocksrr-libev \
+					-I$(LOCAL_PATH)/include \
+					-I$(LOCAL_PATH)/libancillary \
+					-I$(LOCAL_PATH)/mbedtls/include  \
+					-I$(LOCAL_PATH)/pcre \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libudns \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libcork/include \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libsodium/src/libsodium/include \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libsodium/src/libsodium/include/sodium \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libipset/include \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/libev \
+					-I$(LOCAL_PATH)/shadowsocksrr-libev/src
+
+LOCAL_STATIC_LIBRARIES := libev libmbedtls libipset libcork libudns \
+	libsodium libancillary libpcre
+
+LOCAL_LDLIBS := -llog
+
+include $(BUILD_EXECUTABLE)
+
+########################################################
 ## shadowsocks-libev tunnel
 ########################################################
 
