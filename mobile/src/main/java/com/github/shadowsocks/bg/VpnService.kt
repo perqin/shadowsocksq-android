@@ -29,7 +29,7 @@ import android.os.ParcelFileDescriptor
 import android.util.Log
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.JniHelper
-import com.github.shadowsocks.R
+import com.perqin.shadowsocksq.R
 import com.github.shadowsocks.VpnRequestActivity
 import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.preference.DataStore
