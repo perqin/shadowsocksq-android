@@ -33,10 +33,15 @@
 
   <!-- proxy category -->
   <string name="profile_name">Profile Name</string>
+  <string name="server_type">Server Type</string>
   <string name="proxy">Server</string>
   <string name="remote_port">Remote Port</string>
   <string name="sitekey">Password</string>
   <string name="enc_method">Encrypt Method</string>
+  <string name="protocol">Protocol</string>
+  <string name="protocol_param">Protocol Param</string>
+  <string name="obfs">Obfs</string>
+  <string name="obfs_param">Obfs Param</string>
 
   <!-- feature category -->
   <string name="ipv6">IPv6 Route</string>

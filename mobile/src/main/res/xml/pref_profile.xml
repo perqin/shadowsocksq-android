@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--suppress AndroidElementNotAllowed -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
                   xmlns:app="http://schemas.android.com/apk/res/com.perqin.shadowsocksq">
 
@@ -6,6 +7,13 @@
             android:key="profileName"
             app:pref_summaryHasText="%s"
             android:title="@string/profile_name"/>
+
+    <SimpleMenuPreference
+        android:key="serverType"
+        android:entries="@array/server_type_entry"
+        android:entryValues="@array/server_type_value"
+        android:summary="%s"
+        android:title="@string/server_type"/>
 
     <PreferenceCategory
             android:title="@string/proxy_cat">
@@ -34,6 +42,32 @@
                 android:entryValues="@array/enc_method_value"
                 android:summary="%s"
                 android:title="@string/enc_method"/>
+        <!-- SSRR options BEGIN -->
+        <SimpleMenuPreference
+            android:key="protocol"
+            android:entries="@array/protocol_entry"
+            android:entryValues="@array/protocol_value"
+            android:summary="%s"
+            android:title="@string/protocol"/>
+        <AutoSummaryEditTextPreference
+            android:key="protocolParam"
+            android:dependency="protocol"
+            app:pref_summaryHasText="%s"
+            android:singleLine="true"
+            android:title="@string/protocol_param"/>
+        <SimpleMenuPreference
+            android:key="obfs"
+            android:entries="@array/obfs_entry"
+            android:entryValues="@array/obfs_value"
+            android:summary="%s"
+            android:title="@string/obfs"/>
+        <AutoSummaryEditTextPreference
+            android:key="obfsParam"
+            android:dependency="obfs"
+            app:pref_summaryHasText="%s"
+            android:singleLine="true"
+            android:title="@string/obfs_param"/>
+        <!-- SSRR options END -->
 
     </PreferenceCategory>
 

@@ -31,7 +31,7 @@ import com.j256.ormlite.dao.Dao
 import com.j256.ormlite.support.ConnectionSource
 import com.j256.ormlite.table.TableUtils
 
-object PrivateDatabase : OrmLiteSqliteOpenHelper(app, Key.DB_PROFILE, null, 25) {
+object PrivateDatabase : OrmLiteSqliteOpenHelper(app, Key.DB_PROFILE, null, 26) {
     @Suppress("UNCHECKED_CAST")
     val profileDao: Dao<Profile, Int> by lazy { getDao(Profile::class.java) as Dao<Profile, Int> }
     @Suppress("UNCHECKED_CAST")
@@ -140,6 +140,14 @@ object PrivateDatabase : OrmLiteSqliteOpenHelper(app, Key.DB_PROFILE, null, 25) 
 
             if (oldVersion < 25) {
                 PublicDatabase.onUpgrade(database, 0, -1)
+            }
+
+            if (oldVersion < 26) {
+                profileDao.executeRawNoArgs("ALTER TABLE `profile` ADD COLUMN serverType VARCHAR DEFAULT 'ss';")
+                profileDao.executeRawNoArgs("ALTER TABLE `profile` ADD COLUMN protocol VARCHAR DEFAULT 'origin';")
+                profileDao.executeRawNoArgs("ALTER TABLE `profile` ADD COLUMN protocolParam VARCHAR DEFAULT '';")
+                profileDao.executeRawNoArgs("ALTER TABLE `profile` ADD COLUMN obfs VARCHAR DEFAULT 'plain';")
+                profileDao.executeRawNoArgs("ALTER TABLE `profile` ADD COLUMN obfsParam VARCHAR DEFAULT '';")
             }
         } catch (ex: Exception) {
             app.track(ex)

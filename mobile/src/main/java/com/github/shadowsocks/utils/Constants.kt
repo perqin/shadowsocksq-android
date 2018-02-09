@@ -29,6 +29,7 @@ object Key {
 
     const val id = "profileId"
     const val name = "profileName"
+    const val serverType = "serverType"
 
     const val individual = "Proxyed"
 
@@ -53,6 +54,10 @@ object Key {
     const val host = "proxy"
     const val password = "sitekey"
     const val method = "encMethod"
+    const val protocol = "protocol"
+    const val protocolParam = "protocolParam"
+    const val obfs = "obfs"
+    const val obfsParam = "obfsParam"
     const val remotePort = "remotePortNum"
     const val remoteDns = "remoteDns"
 

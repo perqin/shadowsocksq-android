@@ -49,6 +49,7 @@ import com.github.shadowsocks.utils.Key
 import com.perqin.shadowsocksq.R
 import com.takisoft.fix.support.v7.preference.EditTextPreference
 import com.takisoft.fix.support.v7.preference.PreferenceFragmentCompatDividers
+import com.takisoft.fix.support.v7.preference.SimpleMenuPreference
 
 class ProfileConfigFragment : PreferenceFragmentCompatDividers(), Toolbar.OnMenuItemClickListener,
         Preference.OnPreferenceChangeListener, OnPreferenceDataStoreChangeListener {
@@ -57,6 +58,8 @@ class ProfileConfigFragment : PreferenceFragmentCompatDividers(), Toolbar.OnMenu
     }
 
     private lateinit var profile: Profile
+    private lateinit var protocolPref: SimpleMenuPreference
+    private lateinit var obfsPref: SimpleMenuPreference
     private lateinit var isProxyApps: SwitchPreference
     private lateinit var plugin: IconListPreference
     private lateinit var pluginConfigure: EditTextPreference
@@ -77,6 +80,14 @@ class ProfileConfigFragment : PreferenceFragmentCompatDividers(), Toolbar.OnMenu
             findPreference(Key.host).summary = "shadowsocks.example.org"
             findPreference(Key.remotePort).summary = "1337"
             findPreference(Key.password).summary = "\u2022".repeat(32)
+        }
+        protocolPref = findPreference(Key.protocol) as SimpleMenuPreference
+        obfsPref = findPreference(Key.obfs) as SimpleMenuPreference
+        (findPreference(Key.serverType) as SimpleMenuPreference).setOnPreferenceChangeListener { _, newValue ->
+            val isSsrr = (newValue as String) == "ssrr"
+            protocolPref.isEnabled = isSsrr
+            obfsPref.isEnabled = isSsrr
+            true
         }
         val serviceMode = DataStore.serviceMode
         findPreference(Key.remoteDns).isEnabled = serviceMode != Key.modeProxy

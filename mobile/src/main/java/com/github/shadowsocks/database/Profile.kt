@@ -88,6 +88,9 @@ class Profile : Serializable {
     var name: String? = ""
 
     @DatabaseField
+    var serverType: String? = "ss"
+
+    @DatabaseField
     var host: String = "198.199.101.152"
 
     @DatabaseField
@@ -98,6 +101,18 @@ class Profile : Serializable {
 
     @DatabaseField
     var method: String = "aes-256-cfb"
+
+    @DatabaseField
+    var protocol: String = "origin"
+
+    @DatabaseField
+    var protocolParam: String = ""
+
+    @DatabaseField
+    var obfs: String = "plain"
+
+    @DatabaseField
+    var obfsParam: String = ""
 
     @DatabaseField
     var remoteDns: String = "8.8.8.8"
@@ -152,11 +167,16 @@ class Profile : Serializable {
 
     fun serialize() {
         DataStore.privateStore.putString(Key.name, name)
+        DataStore.privateStore.putString(Key.serverType, serverType)
         DataStore.privateStore.putString(Key.host, host)
         DataStore.privateStore.putString(Key.remotePort, remotePort.toString())
         DataStore.privateStore.putString(Key.password, password)
         DataStore.privateStore.putString(Key.remoteDns, remoteDns)
         DataStore.privateStore.putString(Key.method, method)
+        DataStore.privateStore.putString(Key.protocol, protocol)
+        DataStore.privateStore.putString(Key.protocolParam, protocolParam)
+        DataStore.privateStore.putString(Key.obfs, obfs)
+        DataStore.privateStore.putString(Key.obfsParam, obfsParam)
         DataStore.proxyApps = proxyApps
         DataStore.bypass = bypass
         DataStore.privateStore.putBoolean(Key.udpdns, udpdns)
@@ -168,10 +188,15 @@ class Profile : Serializable {
     fun deserialize() {
         // It's assumed that default values are never used, so 0/false/null is always used even if that isn't the case
         name = DataStore.privateStore.getString(Key.name) ?: ""
+        serverType = DataStore.privateStore.getString(Key.serverType) ?: ""
         host = DataStore.privateStore.getString(Key.host) ?: ""
         remotePort = parsePort(DataStore.privateStore.getString(Key.remotePort), 8388, 1)
         password = DataStore.privateStore.getString(Key.password) ?: ""
         method = DataStore.privateStore.getString(Key.method) ?: ""
+        protocol = DataStore.privateStore.getString(Key.protocol) ?: ""
+        protocolParam = DataStore.privateStore.getString(Key.protocolParam) ?: ""
+        obfs = DataStore.privateStore.getString(Key.obfs) ?: ""
+        obfsParam = DataStore.privateStore.getString(Key.obfsParam) ?: ""
         remoteDns = DataStore.privateStore.getString(Key.remoteDns) ?: ""
         proxyApps = DataStore.proxyApps
         bypass = DataStore.bypass
