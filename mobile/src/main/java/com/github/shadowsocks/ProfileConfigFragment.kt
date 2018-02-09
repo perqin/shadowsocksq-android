@@ -83,12 +83,16 @@ class ProfileConfigFragment : PreferenceFragmentCompatDividers(), Toolbar.OnMenu
         }
         protocolPref = findPreference(Key.protocol) as SimpleMenuPreference
         obfsPref = findPreference(Key.obfs) as SimpleMenuPreference
-        (findPreference(Key.serverType) as SimpleMenuPreference).setOnPreferenceChangeListener { _, newValue ->
+        // Dirty way to ensure the protocol and obfs are disabled properly
+        val serverTypePref = findPreference(Key.serverType) as SimpleMenuPreference
+        val serverTypePrefOnChange = { _: Preference, newValue: Any ->
             val isSsrr = (newValue as String) == "ssrr"
             protocolPref.isEnabled = isSsrr
             obfsPref.isEnabled = isSsrr
             true
         }
+        serverTypePref.setOnPreferenceChangeListener { pref, newValue -> serverTypePrefOnChange(pref, newValue) }
+        serverTypePrefOnChange(serverTypePref, serverTypePref.value)
         val serviceMode = DataStore.serviceMode
         findPreference(Key.remoteDns).isEnabled = serviceMode != Key.modeProxy
         isProxyApps = findPreference(Key.proxyApps) as SwitchPreference
