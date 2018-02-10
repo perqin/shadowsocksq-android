@@ -176,13 +176,22 @@ object BaseService {
                     .put("server_port", profile.remotePort)
                     .put("password", profile.password)
                     .put("method", profile.method)
-            val pluginPath = pluginPath
-            if (pluginPath != null) {
-                val pluginCmd = arrayListOf(pluginPath)
-                if (TcpFastOpen.sendEnabled) pluginCmd.add("--fast-open")
+            if (profile.serverType == "ssrr") {
                 config
-                        .put("plugin", Commandline.toString(service.buildAdditionalArguments(pluginCmd)))
-                        .put("plugin_opts", plugin.toString())
+                        .put("protocol", profile.protocol)
+                        .put("protocol_param", profile.protocolParam)
+                        .put("obfs", profile.obfs)
+                        .put("obfs_param", profile.obfsParam)
+            } else {
+                // Plugin feature is only available for Shadowsocks
+                val pluginPath = pluginPath
+                if (pluginPath != null) {
+                    val pluginCmd = arrayListOf(pluginPath)
+                    if (TcpFastOpen.sendEnabled) pluginCmd.add("--fast-open")
+                    config
+                            .put("plugin", Commandline.toString(service.buildAdditionalArguments(pluginCmd)))
+                            .put("plugin_opts", plugin.toString())
+                }
             }
             // sensitive Shadowsocks config is stored in
             val file = File((if (UserManagerCompat.isUserUnlocked(app)) app.filesDir else @TargetApi(24) {
@@ -239,13 +248,25 @@ object BaseService {
 
         fun startNativeProcesses() {
             val data = data
+            val isSsrr = data.profile?.serverType == "ssrr"
             val cmd = buildAdditionalArguments(arrayListOf(
-                    File((this as Context).applicationInfo.nativeLibraryDir, Executable.SS_LOCAL).absolutePath,
+                    File(
+                            (this as Context).applicationInfo.nativeLibraryDir,
+                            if (isSsrr) Executable.SSRR_LOCAL else Executable.SS_LOCAL
+                    ).absolutePath,
                     "-u",
                     "-b", "127.0.0.1",
                     "-l", DataStore.portProxy.toString(),
                     "-t", "600",
                     "-c", data.buildShadowsocksConfig().absolutePath))
+
+            if (isSsrr) {
+                // Set prefix explicitly to send proper protected sock path
+                cmd += "-P"
+                cmd += app.deviceContext.filesDir.absolutePath
+                // Enable traffic monitor
+                cmd += "-x"
+            }
 
             val acl = data.aclFile
             if (acl != null) {

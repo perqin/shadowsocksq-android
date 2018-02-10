@@ -29,11 +29,12 @@ import java.io.File
 object Executable {
     const val REDSOCKS = "libredsocks.so"
     const val SS_LOCAL = "libss-local.so"
+    const val SSRR_LOCAL = "libssrr-local.so"
     const val SS_TUNNEL = "libss-tunnel.so"
     const val TUN2SOCKS = "libtun2socks.so"
     const val OVERTURE = "liboverture.so"
 
-    val EXECUTABLES = setOf(SS_LOCAL, SS_TUNNEL, REDSOCKS, TUN2SOCKS, OVERTURE)
+    val EXECUTABLES = setOf(SS_LOCAL, SSRR_LOCAL, SS_TUNNEL, REDSOCKS, TUN2SOCKS, OVERTURE)
 
     fun killAll() {
         for (process in File("/proc").listFiles { _, name -> TextUtils.isDigitsOnly(name) }) {

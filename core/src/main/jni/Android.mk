@@ -329,7 +329,7 @@ LOCAL_STATIC_LIBRARIES := libev libmbedtls libipset libcork libudns \
 
 LOCAL_LDLIBS := -llog
 
-include $(BUILD_EXECUTABLE)
+include $(BUILD_SHARED_EXECUTABLE)
 
 ########################################################
 ## shadowsocks-libev tunnel

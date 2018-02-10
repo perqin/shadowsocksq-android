@@ -29,12 +29,12 @@ import android.os.ParcelFileDescriptor
 import android.util.Log
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.JniHelper
-import com.perqin.shadowsocksq.R
 import com.github.shadowsocks.VpnRequestActivity
 import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.preference.DataStore
 import com.github.shadowsocks.utils.Subnet
 import com.github.shadowsocks.utils.parseNumericAddress
+import com.perqin.shadowsocksq.R
 import java.io.File
 import java.io.FileDescriptor
 import java.lang.reflect.Method
