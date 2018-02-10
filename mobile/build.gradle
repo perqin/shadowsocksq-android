@@ -21,8 +21,8 @@ android {
         applicationId "com.perqin.shadowsocksq"
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.sdkVersion
-        versionCode 40406000
-        versionName "4.4.6.0"
+        versionCode 40406001
+        versionName "4.4.6.1"
         testApplicationId "com.perqin.shadowsocksq.test"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         resConfigs "fa", "fr", "ja", "ko", "ru", "zh-rCN", "zh-rTW"
