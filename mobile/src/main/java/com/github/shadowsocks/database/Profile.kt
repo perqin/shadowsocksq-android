@@ -39,6 +39,13 @@ class Profile : Serializable {
         private val pattern = """(?i)ss://[-a-zA-Z0-9+&@#/%?=~_|!:,.;\[\]]*[-a-zA-Z0-9+&@#/%=~_|\[\]]""".toRegex()
         private val userInfoPattern = "^(.+?):(.*)$".toRegex()
         private val legacyPattern = "^(.+?):(.*)@(.+?):(\\d+?)$".toRegex()
+        // Source: https://github.com/shadowsocksrr/shadowsocksr-android/blob/Akkariiin%2Fmaster/src/main/scala/com/github/shadowsocks/utils/Parser.scala
+        private val patternSsr = """(?i)ssr://([A-Za-z0-9_=-]+)""".toRegex()
+        private val decodedPatternSsr = """(?i)^((.+):(\d+?):(.*):(.+):(.*):([^/]+))""".toRegex()
+        private val decodedPatternSsrObfsParam = """(?i)[?&]obfsparam=([A-Za-z0-9_=-]*)""".toRegex()
+        private val decodedPatternSsrRemarks = """(?i)[?&]remarks=([A-Za-z0-9_=-]*)""".toRegex()
+        private val decodedPatternSsrProtocolParam = """(?i)[?&]protoparam=([A-Za-z0-9_=-]*)""".toRegex()
+        private val decodedPatternSsrGroupParam = """(?i)[?&]group=([A-Za-z0-9_=-]*)""".toRegex()
 
         fun findAll(data: CharSequence?) = pattern.findAll(data ?: "").map {
             val uri = Uri.parse(it.value)
@@ -46,6 +53,7 @@ class Profile : Serializable {
                 val match = legacyPattern.matchEntire(String(Base64.decode(uri.host, Base64.NO_PADDING)))
                 if (match != null) {
                     val profile = Profile()
+                    profile.serverType = "ss"
                     profile.method = match.groupValues[1].toLowerCase()
                     profile.password = match.groupValues[2]
                     profile.host = match.groupValues[3]
@@ -62,6 +70,7 @@ class Profile : Serializable {
                         Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE)))
                 if (match != null) {
                     val profile = Profile()
+                    profile.serverType = "ss"
                     profile.method = match.groupValues[1]
                     profile.password = match.groupValues[2]
                     // bug in Android: https://code.google.com/p/android/issues/detail?id=192855
@@ -77,6 +86,29 @@ class Profile : Serializable {
                     Log.e(TAG, "Unknown user info: ${it.value}")
                     null
                 }
+            }
+        }.filterNotNull() + patternSsr.findAll(data ?: "").map {
+            val decode = { based: String ->
+                String(Base64.decode(based, Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE))
+            }
+            val decoded = decode(it.groupValues[1])
+            val match = decodedPatternSsr.find(decoded)
+            if (match != null) {
+                val profile = Profile()
+                profile.serverType = "ssrr"
+                profile.host = match.groupValues[2].toLowerCase()
+                profile.remotePort = match.groupValues[3].toInt()
+                profile.protocol = match.groupValues[4].toLowerCase()
+                profile.method = match.groupValues[5].toLowerCase()
+                profile.obfs = match.groupValues[6].toLowerCase()
+                profile.password = decode(match.groupValues[7])
+                profile.obfsParam = decode(decodedPatternSsrObfsParam.find(decoded)?.groupValues?.get(1)?: "")
+                profile.protocolParam = decode(decodedPatternSsrProtocolParam.find(decoded)?.groupValues?.get(1)?: "")
+                profile.name = decode(decodedPatternSsrRemarks.find(decoded)?.groupValues?.get(1)?: "")
+                profile
+            } else {
+                Log.e(TAG, "Unrecognized URI: $decoded")
+                null
             }
         }.filterNotNull()
     }
@@ -152,15 +184,28 @@ class Profile : Serializable {
 
     fun toUri(): Uri {
         val builder = Uri.Builder()
-                .scheme("ss")
-                .encodedAuthority("%s@%s:%d".format(Locale.ENGLISH,
-                        Base64.encodeToString("%s:%s".format(Locale.ENGLISH, method, password).toByteArray(),
-                                Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE),
-                        if (host.contains(':')) "[$host]" else host, remotePort))
-        val configuration = PluginConfiguration(plugin ?: "")
-        if (configuration.selected.isNotEmpty())
-            builder.appendQueryParameter(Key.plugin, configuration.selectedOptions.toString(false))
-        if (!name.isNullOrEmpty()) builder.fragment(name)
+        if (serverType == "ss") {
+            builder
+                    .scheme("ss")
+                    .encodedAuthority("%s@%s:%d".format(Locale.ENGLISH,
+                            Base64.encodeToString("%s:%s".format(Locale.ENGLISH, method, password).toByteArray(),
+                                    Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE),
+                            if (host.contains(':')) "[$host]" else host, remotePort))
+            val configuration = PluginConfiguration(plugin ?: "")
+            if (configuration.selected.isNotEmpty())
+                builder.appendQueryParameter(Key.plugin, configuration.selectedOptions.toString(false))
+            if (!name.isNullOrEmpty()) builder.fragment(name)
+        } else {
+            val encode = { plain: String ->
+                Base64.encodeToString("%s".format(Locale.ENGLISH, plain).toByteArray(), Base64.NO_PADDING or Base64.NO_WRAP or Base64.URL_SAFE)
+            }
+            builder
+                    .scheme("ssr")
+                    .encodedAuthority(encode("%s:%d:%s:%s:%s:%s/?obfsparam=%s&protoparam=%s&remarks=%s&group=%s".format(
+                            Locale.ENGLISH, host, remotePort, protocol, method, obfs,
+                            encode(password), encode(obfsParam), encode(protocolParam), encode(name?: ""), encode("")
+                    )))
+        }
         return builder.build()
     }
     override fun toString() = toUri().toString()
