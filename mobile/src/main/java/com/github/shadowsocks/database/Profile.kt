@@ -105,6 +105,7 @@ class Profile : Serializable {
                 profile.obfsParam = decode(decodedPatternSsrObfsParam.find(decoded)?.groupValues?.get(1)?: "")
                 profile.protocolParam = decode(decodedPatternSsrProtocolParam.find(decoded)?.groupValues?.get(1)?: "")
                 profile.name = decode(decodedPatternSsrRemarks.find(decoded)?.groupValues?.get(1)?: "")
+                profile.group = decode(decodedPatternSsrGroupParam.find(decoded)?.groupValues?.get(1)?: "")
                 profile
             } else {
                 Log.e(TAG, "Unrecognized URI: $decoded")
@@ -115,6 +116,9 @@ class Profile : Serializable {
 
     @DatabaseField(generatedId = true)
     var id: Int = 0
+
+    @DatabaseField
+    var group: String? = ""
 
     @DatabaseField
     var name: String? = ""
@@ -203,7 +207,7 @@ class Profile : Serializable {
                     .scheme("ssr")
                     .encodedAuthority(encode("%s:%d:%s:%s:%s:%s/?obfsparam=%s&protoparam=%s&remarks=%s&group=%s".format(
                             Locale.ENGLISH, host, remotePort, protocol, method, obfs,
-                            encode(password), encode(obfsParam), encode(protocolParam), encode(name?: ""), encode("")
+                            encode(password), encode(obfsParam), encode(protocolParam), encode(name?: ""), encode(group?: "")
                     )))
         }
         return builder.build()
@@ -211,6 +215,7 @@ class Profile : Serializable {
     override fun toString() = toUri().toString()
 
     fun serialize() {
+        DataStore.privateStore.putString(Key.group, group)
         DataStore.privateStore.putString(Key.name, name)
         DataStore.privateStore.putString(Key.serverType, serverType)
         DataStore.privateStore.putString(Key.host, host)
@@ -233,6 +238,7 @@ class Profile : Serializable {
     fun deserialize() {
         // It's assumed that default values are never used, so 0/false/null is always used even if that isn't the case
         name = DataStore.privateStore.getString(Key.name) ?: ""
+        group = DataStore.privateStore.getString(Key.group) ?: ""
         serverType = DataStore.privateStore.getString(Key.serverType) ?: ""
         host = DataStore.privateStore.getString(Key.host) ?: ""
         remotePort = parsePort(DataStore.privateStore.getString(Key.remotePort), 8388, 1)

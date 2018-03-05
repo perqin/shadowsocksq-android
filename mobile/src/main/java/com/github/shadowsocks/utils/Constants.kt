@@ -28,6 +28,7 @@ object Key {
     const val DB_PROFILE = "profile.db"
 
     const val id = "profileId"
+    const val group = "profileGroup"
     const val name = "profileName"
     const val serverType = "serverType"
 

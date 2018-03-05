@@ -20,6 +20,7 @@
 <string name="proxy_cat">"服务器设置"</string>
 
 <!-- proxy category -->
+<string name="profile_group">"配置分组"</string>
 <string name="profile_name">"配置名称"</string>
 <string name="proxy">"服务器"</string>
 <string name="remote_port">"远程端口"</string>

@@ -4,9 +4,14 @@
                   xmlns:app="http://schemas.android.com/apk/res/com.perqin.shadowsocksq">
 
     <AutoSummaryEditTextPreference
-            android:key="profileName"
-            app:pref_summaryHasText="%s"
-            android:title="@string/profile_name"/>
+        android:key="profileGroup"
+        app:pref_summaryHasText="%s"
+        android:title="@string/profile_group"/>
+
+    <AutoSummaryEditTextPreference
+        android:key="profileName"
+        app:pref_summaryHasText="%s"
+        android:title="@string/profile_name"/>
 
     <SimpleMenuPreference
         android:key="serverType"

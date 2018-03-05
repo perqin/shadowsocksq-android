@@ -32,6 +32,7 @@
   <string name="connection_test_error_status_code">Error code: #%d</string>
 
   <!-- proxy category -->
+  <string name="profile_group">Profile Group</string>
   <string name="profile_name">Profile Name</string>
   <string name="server_type">Server Type</string>
   <string name="proxy">Server</string>
