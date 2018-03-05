@@ -46,6 +46,7 @@ import com.github.shadowsocks.database.ProfileManager
 import com.github.shadowsocks.plugin.PluginConfiguration
 import com.github.shadowsocks.preference.DataStore
 import com.github.shadowsocks.utils.Action
+import com.github.shadowsocks.widget.SubHeaderItemDecoration
 import com.github.shadowsocks.widget.UndoSnackbarManager
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
@@ -243,7 +244,12 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
             notifyItemInserted(pos)
         }
 
-        fun move(from: Int, to: Int) {
+        fun move(from: Int, to: Int): Boolean {
+            println("Move from $from to $to")
+            if (profiles[to].group?: "" != profiles[from].group?: "") {
+                // Reject moving across group
+                return false
+            }
             undoManager.flush()
             val first = profiles[from]
             var previousOrder = first.userOrder
@@ -260,6 +266,7 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
             profiles[to] = first
             updated.add(first)
             notifyItemMoved(from, to)
+            return true
         }
         fun commitMove() {
             updated.forEach { ProfileManager.updateProfile(it) }
@@ -297,6 +304,12 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
             notifyItemRemoved(index)
             if (id == DataStore.profileId) DataStore.profileId = 0  // switch to null profile
         }
+
+        fun getSubHeader(position: Int): String? {
+            if (profiles.size == 0 || position < 0 || position >= profiles.size) return null
+            if (position == 0 || profiles[position - 1].group?: "" != profiles[position].group?: "") return profiles[position].group?: ""
+            return null
+        }
     }
 
     private var selectedItem: ProfileViewHolder? = null
@@ -326,6 +339,9 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
         val profilesList = view.findViewById<RecyclerView>(R.id.list)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         profilesList.layoutManager = layoutManager
+        profilesList.addItemDecoration(SubHeaderItemDecoration(context!!, object : SubHeaderItemDecoration.SubHeaderProvider {
+            override fun getSubHeader(position: Int) = profilesAdapter.getSubHeader(position)
+        }))
         profilesList.addItemDecoration(DividerItemDecoration(context, layoutManager.orientation))
         layoutManager.scrollToPosition(profilesAdapter.profiles.indexOfFirst { it.id == DataStore.profileId })
         val animator = DefaultItemAnimator()
@@ -350,8 +366,7 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
             }
             override fun onMove(recyclerView: RecyclerView,
                                 viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
-                profilesAdapter.move(viewHolder.adapterPosition, target.adapterPosition)
-                return true
+                return profilesAdapter.move(viewHolder.adapterPosition, target.adapterPosition)
             }
             override fun clearView(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?) {
                 super.clearView(recyclerView, viewHolder)

@@ -95,7 +95,7 @@ object ProfileManager {
     }
 
     fun getAllProfiles(): List<Profile>? = try {
-        PrivateDatabase.profileDao.query(PrivateDatabase.profileDao.queryBuilder().orderBy("userOrder", true).prepare())
+        PrivateDatabase.profileDao.query(PrivateDatabase.profileDao.queryBuilder().orderBy("group", false).orderBy("userOrder", true).prepare())
     } catch (ex: Exception) {
         Log.e(TAG, "getAllProfiles", ex)
         app.track(ex)
