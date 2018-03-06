@@ -37,8 +37,10 @@ import android.support.annotation.RequiresApi
 import android.support.v4.os.UserManagerCompat
 import android.support.v7.app.AppCompatDelegate
 import android.util.Log
+import android.widget.Toast
 import com.evernote.android.job.JobConstants
 import com.evernote.android.job.JobManager
+import com.evernote.android.job.JobManagerCreateException
 import com.github.shadowsocks.acl.Acl
 import com.github.shadowsocks.acl.AclSyncJob
 import com.github.shadowsocks.bg.BaseService
@@ -126,11 +128,16 @@ class App : Application() {
         remoteConfig.fetch().addOnCompleteListener {
             if (it.isSuccessful) remoteConfig.activateFetched() else Log.e(TAG, "Failed to fetch config")
         }
-        JobManager.create(deviceContext).addJobCreator(AclSyncJob)
+        try {
+            JobManager.create(deviceContext).addJobCreator(AclSyncJob)
+        } catch (e: JobManagerCreateException) {
+            Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
+            app.track(e)
+        }
 
         // handle data restored
         if (DataStore.directBootAware && UserManagerCompat.isUserUnlocked(this)) DirectBoot.update()
-        TcpFastOpen.enabled(DataStore.publicStore.getBoolean(Key.tfo, TcpFastOpen.sendEnabled))
+        TcpFastOpen.enabledAsync(DataStore.publicStore.getBoolean(Key.tfo, TcpFastOpen.sendEnabled))
         if (DataStore.publicStore.getLong(Key.assetUpdateTime, -1) != info.lastUpdateTime) {
             val assetManager = assets
             for (dir in arrayOf("acl", "overture"))
@@ -167,13 +174,16 @@ class App : Application() {
         }
     }
 
-    fun listenForPackageChanges(callback: () -> Unit): BroadcastReceiver {
+    fun listenForPackageChanges(onetime: Boolean = true, callback: () -> Unit): BroadcastReceiver {
         val filter = IntentFilter(Intent.ACTION_PACKAGE_ADDED)
         filter.addAction(Intent.ACTION_PACKAGE_REMOVED)
         filter.addDataScheme("package")
-        val result = broadcastReceiver { _, intent ->
-            if (intent.action != Intent.ACTION_PACKAGE_REMOVED ||
-                    !intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) callback()
+        val result = object : BroadcastReceiver() {
+            override fun onReceive(context: Context, intent: Intent) {
+                if (intent.getBooleanExtra(Intent.EXTRA_REPLACING, false)) return
+                callback()
+                if (onetime) app.unregisterReceiver(this)
+            }
         }
         app.registerReceiver(result, filter)
         return result

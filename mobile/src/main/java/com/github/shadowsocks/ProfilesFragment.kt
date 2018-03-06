@@ -37,7 +37,6 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
 import com.github.shadowsocks.App.Companion.app
 import com.github.shadowsocks.bg.BaseService
 import com.github.shadowsocks.bg.TrafficMonitor
@@ -230,7 +229,7 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
         }
 
         override fun onBindViewHolder(holder: ProfileViewHolder, position: Int) = holder.bind(profiles[position])
-        override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ProfileViewHolder = ProfileViewHolder(
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProfileViewHolder = ProfileViewHolder(
                 LayoutInflater.from(parent!!.context).inflate(R.layout.layout_profile, parent, false))
         override fun getItemCount(): Int = profiles.size
         override fun getItemId(position: Int): Long = profiles[position].id.toLong()
@@ -370,12 +369,11 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
                     val profiles = Profile.findAll(clipboard.primaryClip.getItemAt(0).text).toList()
                     if (profiles.isNotEmpty()) {
                         profiles.forEach { ProfileManager.createProfile(it) }
-                        Toast.makeText(activity, R.string.action_import_msg, Toast.LENGTH_SHORT).show()
+                        Snackbar.make(activity!!.findViewById(R.id.snackbar), R.string.action_import_msg,
+                                Snackbar.LENGTH_LONG).show()
                         return true
                     }
-                } catch (exc: Exception) {
-                    app.track(exc)
-                }
+                } catch (_: IndexOutOfBoundsException) { }
                 Snackbar.make(activity!!.findViewById(R.id.snackbar), R.string.action_import_err, Snackbar.LENGTH_LONG)
                         .show()
                 true
@@ -386,10 +384,10 @@ class ProfilesFragment : ToolbarFragment(), Toolbar.OnMenuItemClickListener {
             }
             R.id.action_export -> {
                 val profiles = ProfileManager.getAllProfiles()
-                if (profiles != null) {
+                Snackbar.make(activity!!.findViewById(R.id.snackbar), if (profiles != null) {
                     clipboard.primaryClip = ClipData.newPlainText(null, profiles.joinToString("\n"))
-                    Toast.makeText(activity, R.string.action_export_msg, Toast.LENGTH_SHORT).show()
-                } else Toast.makeText(activity, R.string.action_export_err, Toast.LENGTH_SHORT).show()
+                    R.string.action_export_msg
+                } else R.string.action_export_err, Snackbar.LENGTH_LONG).show()
                 true
             }
             else -> false
