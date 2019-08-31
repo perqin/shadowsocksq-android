@@ -20,30 +20,37 @@
 
 package com.github.shadowsocks.preference
 
-import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
+import androidx.core.os.bundleOf
+import androidx.preference.EditTextPreferenceDialogFragmentCompat
+import androidx.preference.PreferenceDialogFragmentCompat
 import com.github.shadowsocks.ProfileConfigActivity
 import com.github.shadowsocks.plugin.PluginContract
 import com.github.shadowsocks.plugin.PluginManager
-import com.takisoft.fix.support.v7.preference.EditTextPreferenceDialogFragmentCompat
 
 class PluginConfigurationDialogFragment : EditTextPreferenceDialogFragmentCompat() {
     companion object {
-        const val PLUGIN_ID_FRAGMENT_TAG =
+        private const val PLUGIN_ID_FRAGMENT_TAG =
                 "com.github.shadowsocks.preference.PluginConfigurationDialogFragment.PLUGIN_ID"
+    }
+
+    fun setArg(key: String, plugin: String) {
+        arguments = bundleOf(PreferenceDialogFragmentCompat.ARG_KEY to key, PLUGIN_ID_FRAGMENT_TAG to plugin)
     }
 
     private lateinit var editText: EditText
 
     override fun onPrepareDialogBuilder(builder: AlertDialog.Builder) {
         super.onPrepareDialogBuilder(builder)
-        val intent = PluginManager.buildIntent(arguments!!.getString(PLUGIN_ID_FRAGMENT_TAG),
+        val intent = PluginManager.buildIntent(arguments?.getString(PLUGIN_ID_FRAGMENT_TAG)!!,
                 PluginContract.ACTION_HELP)
-        if (intent.resolveActivity(activity!!.packageManager) != null) builder.setNeutralButton("?", { _, _ ->
-            activity!!.startActivityForResult(intent.putExtra(PluginContract.EXTRA_OPTIONS, editText.text.toString()),
+        val activity = requireActivity()
+        if (intent.resolveActivity(activity.packageManager) != null) builder.setNeutralButton("?") { _, _ ->
+            activity.startActivityForResult(intent.putExtra(PluginContract.EXTRA_OPTIONS, editText.text.toString()),
                     ProfileConfigActivity.REQUEST_CODE_PLUGIN_HELP)
-        })
+        }
     }
 
     override fun onBindDialogView(view: View) {

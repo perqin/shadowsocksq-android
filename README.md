@@ -1,38 +1,46 @@
-## Shadowsocks for Android
+## [Shadowsocks](https://shadowsocks.org) for Android
 
-[![Build Status](https://api.travis-ci.org/shadowsocks/shadowsocks-android.svg)](https://travis-ci.org/shadowsocks/shadowsocks-android)
+[![CircleCI](https://circleci.com/gh/shadowsocks/shadowsocks-android.svg?style=shield)](https://circleci.com/gh/shadowsocks/shadowsocks-android)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![Releases](https://img.shields.io/github/downloads/shadowsocks/shadowsocks-android/total.svg)](https://github.com/shadowsocks/shadowsocks-android/releases)
+[![Language: Kotlin](https://img.shields.io/github/languages/top/shadowsocks/shadowsocks-android.svg)](https://github.com/shadowsocks/shadowsocks-android/search?l=kotlin)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/1a21d48d466644cdbcb57a1889abea5b)](https://www.codacy.com/app/shadowsocks/shadowsocks-android?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=shadowsocks/shadowsocks-android&amp;utm_campaign=Badge_Grade)
-[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-orange.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fshadowsocks%2Fshadowsocks-android.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fshadowsocks%2Fshadowsocks-android?ref=badge_shield)
 
-A [shadowsocks](http://shadowsocks.org) client for Android, written in Kotlin.  
 <a href="https://play.google.com/store/apps/details?id=com.github.shadowsocks"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="48"></a>
+for Android & Chrome OS ([beta](https://play.google.com/apps/testing/com.github.shadowsocks))  
+<a href="https://play.google.com/store/apps/details?id=com.github.shadowsocks.tv"><img src="https://play.google.com/intl/en_us/badges/images/generic/en-play-badge.png" height="48"></a>
+for Android TV ([beta](https://play.google.com/apps/testing/com.github.shadowsocks.tv))
 
 
 ### PREREQUISITES
 
 * JDK 1.8
-* Go 1.4+
 * Android SDK
-  - Build Tools 27+
-  - Android NDK r16+
+  - Android NDK
 
 ### BUILD
 
-* Set environment variable `ANDROID_HOME` to `/path/to/android-sdk`
-* (optional) Set environment variable `ANDROID_NDK_HOME` to `/path/to/android-ndk` (default: `$ANDROID_HOME/ndk-bundle`)
-* Set environment variable `GOROOT_BOOTSTRAP` to `/path/to/go`
-* Fetch submodules using `$ git submodule update --init --recursive`
+You can check whether the latest commit builds under UNIX environment by checking Travis status.
+
+* Clone the repo using `git clone --recurse-submodules <repo>` or update submodules using `git submodule update --init --recursive`
 * Build it using Android Studio or gradle script
 
-### TRANSLATE
+### BUILD WITH DOCKER
 
-Translators can go to [POEditor](https://poeditor.com/join/project/u5VHO9vhSf) to help translate shadowsocks-android. Guidelines:
+```bash
+mkdir build
+sudo chown 3434:3434 build
+docker run --rm -v ${PWD}/build:/build circleci/android:api-28-ndk bash -c "cd /build; git clone https://github.com/shadowsocks/shadowsocks-android; cd shadowsocks-android; git submodule update --init --recursive; ./gradlew assembleDebug"
+```
 
-* It's okay to leave some strings untranslated if you think it should use the same string as English (US).
-* `faq_url` should not be changed. If you'd like to translate FAQ, submit a pull request with the translated [`faq.md`](https://github.com/shadowsocks/shadowsocks-android/blob/master/.github/faq.md) (it should be named properly, e.g. `.github/faq.zh-CN.md`). Administrators will take care of the rest.
-* Do not add/edit/remove comments.
+### CONTRIBUTING
+
+If you are interested in contributing or getting involved with this project, please read the CONTRIBUTING page for more information.  The page can be found [here](https://github.com/shadowsocks/shadowsocks-android/blob/master/CONTRIBUTING.md).
+
+
+### [TRANSLATE](https://discourse.shadowsocks.org/t/poeditor-translation-main-thread/30)
 
 ## OPEN SOURCE LICENSES
 
@@ -44,10 +52,12 @@ Translators can go to [POEditor](https://poeditor.com/join/project/u5VHO9vhSf) t
     <li>pcre: <a href="https://android.googlesource.com/platform/external/pcre/+/master/dist2/LICENCE">BSD</a></li>
     <li>libancillary: <a href="https://github.com/shadowsocks/libancillary/blob/shadowsocks-android/COPYING">BSD</a></li>
     <li>shadowsocks-libev: <a href="https://github.com/shadowsocks/shadowsocks-libev/blob/master/LICENSE">GPLv3</a></li>
-    <li>overture: <a href="https://github.com/shawn1m/overture/blob/master/LICENSE">MIT</a></li>
     <li>libev: <a href="https://github.com/shadowsocks/libev/blob/master/LICENSE">GPLv2</a></li>
     <li>libsodium: <a href="https://github.com/jedisct1/libsodium/blob/master/LICENSE">ISC</a></li>
 </ul>
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fshadowsocks%2Fshadowsocks-android.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fshadowsocks%2Fshadowsocks-android?ref=badge_large)
 
 ### LICENSE
 

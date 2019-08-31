@@ -27,17 +27,19 @@ import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import android.support.design.widget.BottomSheetDialog
-import android.support.v7.preference.PreferenceDialogFragmentCompat
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
+import androidx.preference.PreferenceDialogFragmentCompat
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.github.shadowsocks.R
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BottomSheetPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
     private inner class IconListViewHolder(val dialog: BottomSheetDialog, view: View) : RecyclerView.ViewHolder(view),
@@ -58,8 +60,8 @@ class BottomSheetPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
             val typeface = if (selected) Typeface.BOLD else Typeface.NORMAL
             text1.setTypeface(null, typeface)
             text2.setTypeface(null, typeface)
-            text2.visibility = if (preference.entryValues[i].isNotEmpty() &&
-                    preference.entries[i] != preference.entryValues[i]) View.VISIBLE else View.GONE
+            text2.isVisible = preference.entryValues[i].isNotEmpty() &&
+                    preference.entries[i] != preference.entryValues[i]
             icon.setImageDrawable(preference.entryIcons?.get(i))
             index = i
         }
@@ -81,7 +83,6 @@ class BottomSheetPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
                 false
             }
         }
-
     }
     private inner class IconListAdapter(private val dialog: BottomSheetDialog) :
             RecyclerView.Adapter<IconListViewHolder>() {
@@ -91,18 +92,22 @@ class BottomSheetPreferenceDialogFragment : PreferenceDialogFragmentCompat() {
         override fun onBindViewHolder(holder: IconListViewHolder, position: Int) {
             if (preference.selectedEntry < 0) holder.bind(position) else when (position) {
                 0 -> holder.bind(preference.selectedEntry, true)
-                in preference.selectedEntry + 1 .. Int.MAX_VALUE -> holder.bind(position)
+                in preference.selectedEntry + 1..Int.MAX_VALUE -> holder.bind(position)
                 else -> holder.bind(position - 1)
             }
         }
+    }
+
+    fun setArg(key: String) {
+        arguments = bundleOf(ARG_KEY to key)
     }
 
     private val preference by lazy { getPreference() as IconListPreference }
     private var clickedIndex = -1
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val activity = activity
-        val dialog = BottomSheetDialog(activity!!, theme)
+        val activity = requireActivity()
+        val dialog = BottomSheetDialog(activity, theme)
         val recycler = RecyclerView(activity)
         val padding = resources.getDimensionPixelOffset(R.dimen.bottom_sheet_padding)
         recycler.setPadding(0, padding, 0, padding)

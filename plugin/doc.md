@@ -80,6 +80,8 @@ If the plugin doesn't provide a configuration activity, it's highly recommended 
 * MUST be able to receive data URI `plugin://com.github.shadowsocks/$PLUGIN_ID`;
 * CAN parse string extra `com.github.shadowsocks.plugin.EXTRA_OPTIONS` and display some more
   relevant information;
+* SHOULD parse `@NightMode` int extra `com.github.shadowsocks.plugin.EXTRA_NIGHT_MODE` and act
+  accordingly;
 * SHOULD either:
   - Be invisible and return help message with CharSequence extra
     `com.github.shadowsocks.plugin.EXTRA_HELP_MESSAGE` in the data intent with `RESULT_OK`; (in this
@@ -134,8 +136,8 @@ Every native mode plugin MUST have a content provider to provide the native exec
 * MUST implement `query` that returns the file list which MUST include `$PLUGIN_ID` when having
   these as arguments:
   - `uri = "content://$authority_of_your_provider`;
-  - `projection = ["path", "mode"]`; (relative path, for example `obfs-local`; file mode, for
-    example `755`)
+  - `projection = ["path", "mode"]`; (relative path, for example `obfs-local`; file mode as integer, for
+    example `0b110100100`)
   - `selection = null`;
   - `selectionArgs = null`;
   - `sortOrder = null`;
@@ -153,7 +155,8 @@ This corresponds to `com.github.shadowsocks.plugin.NativePluginProvider` in the 
         ...
         <provider android:name=".BinaryProvider"
                   android:exported="true"
-                  android:authorities="$FULLY_QUALIFIED_NAME_OF_YOUR_CONTENTPROVIDER">
+                  android:authorities="$FULLY_QUALIFIED_NAME_OF_YOUR_CONTENTPROVIDER"
+                  tools:ignore="ExportedContentProvider">
             <intent-filter>
                 <action android:name="com.github.shadowsocks.plugin.ACTION_NATIVE_PLUGIN"/>
             </intent-filter>
@@ -183,9 +186,18 @@ If your plugin binary executable can run in place, you can support native mode w
   `com.github.shadowsocks.plugin.EXTRA_ENTRY` when having `method = "shadowsocks:getExecutable"`;
   (`com.github.shadowsocks.plugin.EXTRA_OPTIONS` is provided in extras as well just in case you
   need them)
+* SHOULD define `android:installLocation="internalOnly"` for `<manifest>` in AndroidManifest.xml;
+* SHOULD define `android:extractNativeLibs="true"` for `<application>` in AndroidManifest.xml;
 
 If you don't plan to support this mode, you can just throw `UnsupportedOperationException` when
  being invoked. It will fallback to the slow routine automatically.
+
+### Native mode without binary copying and setup
+
+Additionally, if your plugin only needs to supply the path of your executable without doing any extra setup work,
+ you can use an additional `meta-data` with name `com.github.shadowsocks.plugin.executable_path`
+ to supply executable path to your native binary.
+This allows the host app to launch your plugin without ever launching your app.
 
 ## JVM mode
 
@@ -226,5 +238,9 @@ Plugin app must include this in their application tag: (which should be automati
 
 ```
 <meta-data android:name="com.github.shadowsocks.plugin.version"
-           android:value="0.0.2"/>
+           android:value="1.0.0"/>
 ```
+
+# Android TV
+
+Android TV client does not invoke configuration activities. Therefore your plugins should automatically work with them.
